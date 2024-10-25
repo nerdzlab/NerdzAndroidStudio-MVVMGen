@@ -1,14 +1,16 @@
 package com.nerdzlab.mvvmflutter.generator.components
 
-import com.nerdzlab.mvvmflutter.action.BlocTemplateType
 import com.nerdzlab.mvvmflutter.action.ViewModelType
-import com.nerdzlab.mvvmflutter.generator.BlocGenerator
 import com.nerdzlab.mvvmflutter.generator.ViewModelGenerator
 
-class ViewModelGenerator(
+class ViewModelScreenGenerator(
     name: String,
     packageName: String,
     viewModelType: ViewModelType,
-) : ViewModelGenerator(name, packageName, viewModelType, templateName = "view_model") {
-    override fun fileName() = "${snakeCase()}_screen_view_model.${fileExtension()}"
+) : ViewModelGenerator(
+    name,
+    packageName,
+    templateName = if (viewModelType == ViewModelType.STATELESS) "view_model_screen_stateless" else "view_model_screen_stateful"
+) {
+    override fun fileName() = "${snakeCase()}_screen.${fileExtension()}"
 }

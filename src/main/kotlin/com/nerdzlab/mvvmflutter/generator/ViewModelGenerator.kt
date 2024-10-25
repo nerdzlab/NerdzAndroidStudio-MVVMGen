@@ -4,6 +4,7 @@ import com.fleshgrinder.extensions.kotlin.toLowerSnakeCase
 import com.fleshgrinder.extensions.kotlin.toUpperCamelCase
 import com.google.common.io.CharStreams
 import com.nerdzlab.mvvmflutter.action.ViewModelType
+import com.nerdzlab.mvvmflutter.generator.components.ViewModelGenerator
 import org.apache.commons.lang.text.StrSubstitutor
 import java.io.InputStreamReader
 
@@ -28,7 +29,7 @@ abstract class ViewModelGenerator(
         )
         try {
             val resource = "/templates/view_model/$templateName.dart.template"
-            val resourceAsStream = BlocGenerator::class.java.getResourceAsStream(resource)
+            val resourceAsStream = ViewModelGenerator::class.java.getResourceAsStream(resource)
             templateString = CharStreams.toString(InputStreamReader(resourceAsStream!!, Charsets.UTF_8))
         } catch (e: Exception) {
             throw RuntimeException(e)

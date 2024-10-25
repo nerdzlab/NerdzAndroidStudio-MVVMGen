@@ -1,13 +1,4 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:{{package_name_snake_case}}/presentation_layer/general/base/loading_view_model.dart';
 
-part '{{bloc_snake_case}}_event.dart';
-part '{{bloc_snake_case}}_state.dart';
+abstract class {{view_model_pascal_case}}ScreenViewModelType extends LoadingViewModel {}
 
-class {{bloc_pascal_case}}Bloc extends Bloc<{{bloc_pascal_case}}Event, {{bloc_pascal_case}}State> {
-  {{bloc_pascal_case}}Bloc() : super({{bloc_pascal_case}}Initial()) {
-    on<{{bloc_pascal_case}}Event>((event, emit) {
-      // TODO: implement event handler
-    });
-  }
-}

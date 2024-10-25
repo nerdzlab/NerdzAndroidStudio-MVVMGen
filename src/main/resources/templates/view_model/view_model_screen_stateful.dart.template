@@ -4,7 +4,7 @@ import '{{view_model_snake_case}}_screen_view_model_type.dart';
 
 import 'package:{{package_name_snake_case}}/presentation_layer/general/abstract/base_widget.dart';
 
-final class {{view_model_pascal_case}}Screen extends BaseStatelessWidget {
+final class {{view_model_pascal_case}}Screen extends BaseStatefulWidget {
   {{view_model_pascal_case}}Screen({
     super.key,
     required {{view_model_pascal_case}}ScreenViewModelType viewModel,
@@ -13,9 +13,15 @@ final class {{view_model_pascal_case}}Screen extends BaseStatelessWidget {
   final {{view_model_pascal_case}}ScreenViewModelType _viewModel;
 
   @override
+  State<{{view_model_pascal_case}}Screen> createState() =>
+      _{{view_model_pascal_case}}ScreenState();
+}
+
+class _{{view_model_pascal_case}}ScreenState extends State<{{view_model_pascal_case}}Screen> {
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<{{view_model_pascal_case}}ScreenViewModelType>.value(
-      value: _viewModel,
+      value: widget._viewModel,
       child: Consumer<{{view_model_pascal_case}}ScreenViewModelType>(
         builder: (context, viewModel, _) {
           return Scaffold();

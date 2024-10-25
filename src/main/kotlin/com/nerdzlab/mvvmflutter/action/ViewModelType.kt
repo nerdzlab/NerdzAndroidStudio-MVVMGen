@@ -1,4 +1,6 @@
 package com.nerdzlab.mvvmflutter.action
 
-class ViewModelType {
+enum class ViewModelType {
+    STATELESS,
+    STATEFUL
 }
