@@ -1,0 +1,3 @@
+import 'package:{{package_name_snake_case}}/presentation_layer/general/base/loading_view_model.dart';
+
+abstract class {{view_model_pascal_case}}ScreenViewModelRouteType extends LoadingViewModel {}
