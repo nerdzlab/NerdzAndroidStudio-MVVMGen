@@ -36,6 +36,10 @@
                     group-id="NewGroup"
                     anchor="first"/>
         </action>
+        <action id="ProcessSelectedTextAction" class="com.nerdzlab.mvvmflutter.action.ExtractToArbAction"
+                text="Extract to ARB" description="Processes the currently selected text">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
+        </action>
     </actions>
 
     <extensions defaultExtensionNs="com.intellij">
