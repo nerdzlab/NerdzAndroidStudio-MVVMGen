@@ -24,6 +24,14 @@ class ExtractToArbAction : AnAction() {
         val selectionModel: SelectionModel = editor.selectionModel
         val selectedText = selectionModel.selectedText ?: return
 
+        if (selectedText.isBlank() || selectedText == "''" || selectedText == "\"\"") {
+            Messages.showErrorDialog(
+                "Can't extract. Please select a string enclosed in either single (' ') or double (' \\\" ') quotes.",
+                "Error"
+            )
+            return
+        }
+
         // Step 1: Prompt for key
         val key = Messages.showInputDialog(
             project,
@@ -31,14 +39,38 @@ class ExtractToArbAction : AnAction() {
             "New Localization Key",
             null
         )
-            ?: return // Cancelled
+
+        val validARBKey = Regex("^[a-z][a-zA-Z0-9]*([A-Z][a-zA-Z0-9]*)*$")
+        if (key == null) {
+            Messages.showErrorDialog(
+                "ARB key must be not empty",
+                "Error"
+            )
+            return
+        } else if (!validARBKey.matches(key)) {
+            Messages.showErrorDialog(
+                "ARB key must start with a lowercase letter and can contain numbers, e.g., exampleKey123",
+                "Error"
+            )
+            return
+
+        }
 
         // Step 2: Find `l10n.yaml` and get `arb-dir`
         val l10nYamlFile = findL10nYaml(project)
-        val arbDir = l10nYamlFile?.let { project.basePath + File.separator + getArbDir(it) } ?: return
+        if (l10nYamlFile == null) {
+            Messages.showErrorDialog(
+                "File l10n.yaml not found in the workspace.",
+                "Error"
+            )
+            return
+        }
+
+        val arbDir = l10nYamlFile.let { project.basePath + File.separator + getArbDir(it) }
 
         // Step 3: Insert key-value in all ARB files
-        insertKeyValueInArbFiles(arbDir, key, selectedText)
+        val result = insertKeyValueInArbFiles(arbDir, key, selectedText.trim('\'', '\"'))
+        if (!result) return
 
         // Run `flutter l10n-gen` command
         runCommand(project.basePath!!)
@@ -83,7 +115,7 @@ class ExtractToArbAction : AnAction() {
         return data["arb-dir"] as? String
     }
 
-    private fun insertKeyValueInArbFiles(arbDir: String, key: String, value: String) {
+    private fun insertKeyValueInArbFiles(arbDir: String, key: String, value: String): Boolean {
         // Find ARB files in the specified directory and insert the key-value pair
         val arbFilesDir = File(arbDir)
 
@@ -92,7 +124,13 @@ class ExtractToArbAction : AnAction() {
                 // Read the existing ARB content
                 val existingContent = arbFile.readText()
                 val decodedText = Json.decodeFromString<Map<String, String>>(existingContent)
-                if (decodedText.containsKey(key)) return
+                if (decodedText.containsKey(key)) {
+                    Messages.showErrorDialog(
+                        "ARB already contains key $key",
+                        "Error"
+                    )
+                    return false
+                }
 
                 // Write back to the ARB file
                 val prettyJson = Json {
@@ -100,7 +138,15 @@ class ExtractToArbAction : AnAction() {
                 }
                 arbFile.writeText(prettyJson.encodeToString(decodedText.plus(Pair(key, value))))
             }
+
+            return true
         }
+
+        Messages.showErrorDialog(
+            "ARB directory specified in l10n.yaml does not exist.",
+            "Error"
+        )
+        return false
     }
 
     private fun runCommand(directory: String) {
