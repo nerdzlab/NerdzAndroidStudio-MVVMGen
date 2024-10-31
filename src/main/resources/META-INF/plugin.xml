@@ -37,7 +37,8 @@
                     anchor="first"/>
         </action>
         <action id="ProcessSelectedTextAction" class="com.nerdzlab.mvvmflutter.action.ExtractToArbAction"
-                text="Extract to ARB" description="Processes the currently selected text">
+                text="Extract to ARB" description="Processes the currently selected text"
+                icon="/icons/arb.svg">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>

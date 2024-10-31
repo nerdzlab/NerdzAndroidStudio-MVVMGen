@@ -150,7 +150,7 @@ class ExtractToArbAction : AnAction() {
     }
 
     private fun runCommand(directory: String) {
-        ProcessBuilder("flutter", "l10n-gen")
+        ProcessBuilder("flutter", "gen-l10n")
             .directory(File(directory))
             .redirectOutput(ProcessBuilder.Redirect.PIPE)
             .redirectError(ProcessBuilder.Redirect.PIPE)
