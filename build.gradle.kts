@@ -14,10 +14,10 @@ repositories {
 // Configure Gradle IntelliJ Plugin
 // Read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html
 intellij {
-    version.set("2023.2.6")
-    type.set("IC") // Target IDE Platform
+    type.set("AI") // Target IDE Platform
+    version.set("2023.3.1.18")
 
-    plugins.set(listOf("com.intellij.java"))
+    plugins.set(listOf("org.jetbrains.android"))
 }
 
 dependencies {

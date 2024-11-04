@@ -11,11 +11,9 @@ import com.intellij.openapi.ui.DialogBuilder
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
 import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.platform.impl.toolkit.IdeDesktopPeer.Companion.logger
 import com.intellij.psi.*
 import com.nerdzlab.mvvmflutter.generator.ViewModelGenerator
 import com.nerdzlab.mvvmflutter.generator.ViewModelGeneratorFactory
-import java.awt.Component
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import javax.swing.*
@@ -107,7 +105,6 @@ class GenerateViewModelAction : AnAction() {
         // Find the pubspec.yaml file in the project's root directory
         val baseDir = project.guessProjectDir()
         val pubspecFile: VirtualFile? = baseDir?.findChild("pubspec.yaml")
-        logger.info("Package name retrieved: $baseDir")
         if (pubspecFile != null) {
             // Read the contents of the pubspec.yaml file
             val inputStream = pubspecFile.inputStream
