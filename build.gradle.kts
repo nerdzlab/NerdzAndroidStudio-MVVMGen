@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "com.nerdzlab"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
@@ -17,7 +17,7 @@ intellij {
     type.set("AI") // Target IDE Platform
     version.set("2023.3.1.18")
 
-    plugins.set(listOf("org.jetbrains.android"))
+    plugins.set(listOf("org.jetbrains.android", "java"))
 }
 
 dependencies {
