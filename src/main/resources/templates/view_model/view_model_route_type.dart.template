@@ -1,0 +1,1 @@
+abstract class {{view_model_pascal_case}}ScreenViewModelRouteType {}

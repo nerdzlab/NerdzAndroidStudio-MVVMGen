@@ -1,0 +1,7 @@
+import '{{view_model_snake_case}}_screen_view_model_route_type.dart';
+import '{{view_model_snake_case}}_screen_view_model_type.dart';
+
+final class {{view_model_pascal_case}}ScreenViewModel extends {{view_model_pascal_case}}ScreenViewModelType
+    implements {{view_model_pascal_case}}ScreenViewModelRouteType {
+  {{view_model_pascal_case}}ScreenViewModel();
+}
