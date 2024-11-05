@@ -7,7 +7,8 @@ import com.intellij.openapi.editor.SelectionModel
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.*
+import kotlinx.serialization.json.Json.Default.parseToJsonElement
 import org.yaml.snakeyaml.Yaml
 import java.io.File
 
@@ -123,7 +124,10 @@ class ExtractToArbAction : AnAction() {
             arbFilesDir.listFiles { file -> file.extension == "arb" }?.forEach { arbFile ->
                 // Read the existing ARB content
                 val existingContent = arbFile.readText()
-                val decodedText = Json.decodeFromString<Map<String, String>>(existingContent)
+                // Parse existing content as JsonObject
+                val decodedText = Json.parseToJsonElement(existingContent).jsonObject
+
+                // Check if the key already exists
                 if (decodedText.containsKey(key)) {
                     Messages.showErrorDialog(
                         "ARB already contains key $key",
@@ -132,11 +136,14 @@ class ExtractToArbAction : AnAction() {
                     return false
                 }
 
-                // Write back to the ARB file
+                // Create a new JsonObject with the additional key-value pair
+                val updatedText = JsonObject(decodedText + (key to JsonPrimitive(value)))
+
+                // Serialize back to pretty JSON
                 val prettyJson = Json {
                     prettyPrint = true
                 }
-                arbFile.writeText(prettyJson.encodeToString(decodedText.plus(Pair(key, value))))
+                arbFile.writeText(prettyJson.encodeToString(JsonObject.serializer(), updatedText))
             }
 
             return true
